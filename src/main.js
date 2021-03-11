@@ -3,8 +3,12 @@ import App from './App.vue'
 import router from './router'
 import firebase from 'firebase'
 import vuetify from './plugins/vuetify';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Vue.config.productionTip = false
+
+Vue.use(VueAxios, axios)
 
 var config = {
   apiKey: "AIzaSyA723OaVVnygfXKOjG6iwjvLe27vdN8tCQ",
