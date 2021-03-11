@@ -1,18 +1,28 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-container>
+      <v-card>
+        <v-card-text>
+          <div class="markdown-body">
+            <div id="content"></div>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
+import marked from "marked"
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  created() {
+    this.axios.get('./markdown.md')
+        .then(response => document.querySelector('#content').innerHTML = marked(response.data));
   }
-}
+};
 </script>
+
+<style>
+  @import "../assets/markdown.css";
+</style>
