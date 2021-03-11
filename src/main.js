@@ -11,12 +11,12 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 
 var config = {
-  apiKey: "AIzaSyA723OaVVnygfXKOjG6iwjvLe27vdN8tCQ",
-  authDomain: "chat-app-76f77.firebaseapp.com",
-  databaseURL: "https://chat-app-76f77-default-rtdb.firebaseio.com/",
-  projectId: "chat-app-76f77",
-  storageBucket: "chat-app-76f77.appspot.com",
-  messagingSenderId: "453179489797"
+  apiKey: "AIzaSyBxgZFos2KqPI7F0R7PpJfzgtXrPeycrZw",
+  authDomain: "vue-blog-4157b.firebaseapp.com",
+  databaseURL: "https://vue-blog-4157b-default-rtdb.firebaseio.com/",
+  projectId: "vue-blog-4157b",
+  storageBucket: "vue-blog-4157b.appspot.com",
+  messagingSenderId: "1002580833406"
 }
 firebase.initializeApp(config)
 
