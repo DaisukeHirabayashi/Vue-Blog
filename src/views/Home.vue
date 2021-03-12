@@ -33,10 +33,9 @@ export default {
     const ref_markdown = firebase.database().ref('/markdown');//"-MVU3vgLypjxus0REDJ9"
     ref_markdown.limitToLast(10).on('child_added', this.childAdded);
 
-    const dataRef = firebase.database().ref('/markdown/-MVU3vgLypjxus0REDJ9');
+    const dataRef = firebase.database().ref('/markdown/-MVaID_mMXoSeCGiKZbY');
     dataRef.once("value")
     .then(function(snapshot) {
-      console.log(snapshot.child("markdown_text").val());
       document.querySelector('#content').innerHTML = marked(snapshot.child("markdown_text").val());
     });
   },
@@ -49,10 +48,9 @@ export default {
       })
     },
     doSend() {
-      firebase.database().ref('markdown').push({
-          markdown_text: this.markdown_text
-        }, () => {
-      })
+      const firedb = firebase.database().ref('markdown');
+      var newMarkdown = firedb.push({markdown_text: this.markdown_text});
+      console.log("new key: "+newMarkdown.key);
     }
   }
 };

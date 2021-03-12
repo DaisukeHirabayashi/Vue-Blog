@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-container>
+      <h1>タイトル</h1>
       <v-btn outlined color="green" @click="doSend">送信</v-btn>
       <v-card>
         <v-card-text>
