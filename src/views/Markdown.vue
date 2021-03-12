@@ -34,7 +34,7 @@ export default {
     const ref_markdown = firebase.database().ref('/markdown');//"-MVU3vgLypjxus0REDJ9"
     ref_markdown.limitToLast(10).on('child_added', this.childAdded);
 
-    const dataRef = firebase.database().ref('/markdown/-MVaID_mMXoSeCGiKZbY');
+    const dataRef = firebase.database().ref('/markdown/-MVabQT_PLJ0Ake-HM3h');
     dataRef.once("value")
     .then(function(snapshot) {
       document.querySelector('#content').innerHTML = marked(snapshot.child("markdown_text").val());
@@ -49,9 +49,13 @@ export default {
       })
     },
     doSend() {
-      const firedb = firebase.database().ref('markdown');
-      var newMarkdown = firedb.push({markdown_text: this.markdown_text});
+      const firedb_mark = firebase.database().ref('markdown');
+      var newMarkdown = firedb_mark.push({markdown_text: this.markdown_text});
       console.log("new key: "+newMarkdown.key);
+      firebase.database().ref('mk_title').push({
+          markdown_title: "github-markdown-cssの使い方",
+          id: newMarkdown.key
+      });
     }
   }
 };

@@ -1,15 +1,21 @@
 <template>
   <v-app>
-    <v-container>
-      <v-btn outlined color="green" @click="doSend">送信</v-btn>
-      <v-card>
-        <v-card-text>
-          <div class="markdown-body">
-            <div id="content"></div>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-container>
+    <v-img :src="img_src" max-height="300">
+      <v-container fill-height>
+        <v-layout align-center>
+          <v-flex>
+            <div class="box">
+              <div>
+                <h3 class="display-3 p3">ブログメモサイト</h3>
+                <p>
+                  <span class="subheading">自分用のメモや最近使った技術等のメモサイト</span>
+                </p>
+              </div>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-img>
   </v-app>
 </template>
 
@@ -21,10 +27,7 @@ import firebase from 'firebase'
 export default {
   data() {
     return {
-      markdown_text: "",
-      markdown_texts: [],
-      markdown_content: [],
-      mk_text: ""
+      img_src:require("../assets/cherry-blossom.jpg")
     }
   },
   created() {
@@ -58,4 +61,13 @@ export default {
 
 <style>
   @import "../assets/markdown.css";
+  .box {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  color: #6091d3; /*文字色*/
+  background: #fff;
+  border: solid 3px #6091d3; /*線*/
+  border-radius: 10px; /*角の丸み*/
+}
 </style>
