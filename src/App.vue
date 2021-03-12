@@ -1,40 +1,7 @@
 <template>
   <v-app>
     <!-- ナビゲーションバーの設定 -->
-    <v-navigation-drawer app v-model="drawer" clipped >
-      <v-container>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="title grey--text text--darken-2">
-              Navigation lists
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider></v-divider>
-
-        <v-list nav dense>
-          <v-list-group
-          v-for="nav_list in nav_lists"
-          :key="nav_list.name"
-          :prepend-icon="nav_list.icon"
-          no-action
-          :append-icon="nav_list.lists ? undefined : ''"><!-- no-action:paddingの設定,append-icon:階層構造があるかの確認 -->
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>{{ nav_list.name }}</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item v-for="list in nav_list.lists" :key="list" :to="list.link">
-              <v-list-item-content>
-                <v-list-item-title>{{ list.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-        </v-list>
-
-      </v-container>
-    </v-navigation-drawer>
-
+    <Navigation :title="nav_title" :nav_lists="nav_lists" :drawer="drawer"/>
     <!-- headerの情報 -->
     <v-app-bar color="primary" dark app clipped-left><!-- clippedで下にnavigationを配置 -->
       <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- ナビゲーションバーのボタン -->
@@ -44,24 +11,7 @@
 
       <v-toolbar-items><!-- headerの右側の情報 -->
         <v-btn text to="/enterprise">For Enterprise</v-btn>
-
-        <v-menu offset-y><!-- Get helpボタンの設定 -->
-          <template v-slot:activator="{on}">
-          <v-btn v-on="on" text>Support<v-icon>mdi-menu-down</v-icon></v-btn><!-- ボタンの隣にアイコンの設置 -->
-          </template>
-          <v-list>
-            <v-subheader>Get help</v-subheader>
-              <v-list-item v-for="support in supports" :key="support.name" :to="support.link"><!-- Supportの構造体の中身を一つずつ取り出す -->
-                <v-list-item-icon>
-                <v-icon>{{ support.icon }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                <v-list-item-title>{{ support.name }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-          </v-list>
-        </v-menu>
-
+        <HeaderMenu :menu_title="support_title" :menu_lists="supports"/>
       </v-toolbar-items>
 
     </v-app-bar>
@@ -78,10 +28,20 @@
 </template>
 
 <script>
+import HeaderMenu from './components/Header_Menubar.vue';
+import Navigation from "./components/Navigation.vue";
 export default {
+  components: {
+    Navigation,
+    HeaderMenu
+  },
   data(){
     return{
         drawer: false,
+        support_title:{
+          name : "Support",
+          icon: "mdi-menu-down"
+        },
         supports:[
           {
             name: 'Consulting and suppourt',
@@ -108,6 +68,7 @@ export default {
             link:'/stack-overview'
           },
         ],
+        nav_title: "Navigation lists",
         nav_lists:[
           {
             name: 'Getting Started',
@@ -152,11 +113,13 @@ export default {
           },
           {
             name: 'Directives',
-            icon: 'mdi-function'
+            icon: 'mdi-function',
+            link:'/directives'
           },
           {
             name: 'Preminum themes',
-            icon: 'mdi-vuetify'
+            icon: 'mdi-vuetify',
+            link:'/vuetify'
           },
         ]
     }

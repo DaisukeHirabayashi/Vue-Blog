@@ -36,7 +36,6 @@ export default {
     const dataRef = firebase.database().ref('/markdown/-MVU3vgLypjxus0REDJ9');
     dataRef.once("value")
     .then(function(snapshot) {
-      console.log(snapshot.child("markdown_text").val());
       document.querySelector('#content').innerHTML = marked(snapshot.child("markdown_text").val());
     });
   },
