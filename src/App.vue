@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items><!-- headerの右側の情報 -->
-        <v-btn v-if="!user.uid" text @click="doLogin">管理者ログイン</v-btn>
+        <v-btn v-if="!$store.state.store_user.uid" text @click="doLogin">管理者ログイン</v-btn>
         <v-btn v-else text @click="doLogout">ログアウト</v-btn>
         <HeaderMenu :menu_title="support_title" :menu_lists="supports"/>
       </v-toolbar-items>
@@ -32,6 +32,8 @@
 import HeaderMenu from './components/Header_Menubar.vue';
 import Navigation from "./components/Navigation.vue";
 import firebase from 'firebase'
+import { mapMutations } from "vuex";
+import { USER_UPDATE } from "./store/mutation-types";
 
 export default {
   components: {
@@ -40,7 +42,6 @@ export default {
   },
   data(){
     return{
-        user: {},
         drawer: false,
         support_title:{
           name : "Contact...",
@@ -115,12 +116,16 @@ export default {
   },
   methods: {
     // ログイン処理
+    ...mapMutations({
+      USER_UPDATE
+    }),
     doLogin() {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider).then(result => {
         // ログインしたユーザーの情報を取得します。
         if(result.user.uid == "mQyHVZi87AMkrbR7PXXaFHQAHWb2"){
-          this.user = result.user;
+          this.USER_UPDATE(result.user);
+          console.log(this.$store.state.store_user);
         }
       }).catch(function(err) {
         console.error(err)
@@ -128,7 +133,8 @@ export default {
       });
     },
     doLogout() {
-      this.user = {};
+      this.USER_UPDATE({});
+      console.log(this.$store.state.store_user);
       alert("ログアウトしました");
     },
   }
