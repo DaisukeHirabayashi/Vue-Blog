@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-container>
-      <h1>タイトル</h1>
-      <v-card>
+      <h1 class = "mt-2">{{title}}</h1>
+      <v-card class = "mt-5">
         <v-card-text>
           <div class="markdown-body">
             <div id="content"></div>
@@ -21,12 +21,13 @@ import firebase from 'firebase'
 export default {
   data() {
     return {
+      title:this.$store.state.markdown_info.markdown_text
     }
   },
   created() {
     // this.axios.get('./markdown.md')
     //     .then(response => this.markdown_text = response.data);
-    const dataRef = firebase.database().ref('/markdown/' + this.$store.state.markdown_id);
+    const dataRef = firebase.database().ref('/markdown/' + this.$store.state.markdown_info.markdown_key);
     dataRef.once("value")
     .then(function(snapshot) {
       document.querySelector('#content').innerHTML = marked(snapshot.child("markdown_text").val());
