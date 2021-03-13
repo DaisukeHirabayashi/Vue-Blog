@@ -53,7 +53,7 @@ export default {
       var newMarkdown = firedb_mark.push({markdown_text: this.markdown_text});
       console.log("new key: "+newMarkdown.key);
       firebase.database().ref('mk_title').push({
-          markdown_title: "github-markdown-cssの使い方",
+          markdown_title: "疲れた",
           id: newMarkdown.key
       });
     }
