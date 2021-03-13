@@ -19,6 +19,18 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+    path: '/github',
+    beforeEnter() {
+      window.location = "https://github.com/DaisukeHirabayashi/Vue-Blog"
+    }
+  },
+  {
+    path: '/twitter',
+    beforeEnter() {
+      window.location = "https://twitter.com/daisuke5789"
+    }
+  },
+  {
     path: '/markdown',
     name: 'Markdown',
     // route level code-splitting

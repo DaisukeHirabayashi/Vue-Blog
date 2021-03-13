@@ -5,12 +5,13 @@
     <!-- headerの情報 -->
     <v-app-bar color="primary" dark app clipped-left><!-- clippedで下にnavigationを配置 -->
       <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- ナビゲーションバーのボタン -->
-      <v-toolbar-title>Vuetify</v-toolbar-title><!-- ナビゲーションバーの隣のアイコン -->
+      <v-toolbar-title>Blog Memo(ブロメモ)</v-toolbar-title><!-- ナビゲーションバーの隣のアイコン -->
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items><!-- headerの右側の情報 -->
-        <v-btn text to="/enterprise">For Enterprise</v-btn>
+        <v-btn v-if="!user.uid" text @click="doLogin">管理者ログイン</v-btn>
+        <v-btn v-else text @click="doLogout">ログアウト</v-btn>
         <HeaderMenu :menu_title="support_title" :menu_lists="supports"/>
       </v-toolbar-items>
 
@@ -21,7 +22,7 @@
     </v-main>
 
     <v-footer color="primary" dark app>
-      Vuetify
+      Blog Memo(ブロメモ)
     </v-footer>
 
   </v-app>
@@ -30,6 +31,8 @@
 <script>
 import HeaderMenu from './components/Header_Menubar.vue';
 import Navigation from "./components/Navigation.vue";
+import firebase from 'firebase'
+
 export default {
   components: {
     Navigation,
@@ -37,49 +40,35 @@ export default {
   },
   data(){
     return{
+        user: {},
         drawer: false,
         support_title:{
-          name : "Support",
+          name : "Contact...",
           icon: "mdi-menu-down"
         },
         supports:[
           {
-            name: 'Consulting and suppourt',
-            icon: 'mdi-vuetify',
-            link:'/consulting-and-support'
+            name: 'Twitter Account',
+            icon: 'mdi-twitter',
+            link:'/twitter'
           },
           {
-            name: 'Discord community',
-            icon: 'mdi-discord',
-            link:'/discord-community'},
-          {
-            name: 'Report a bug',
-            icon: 'mdi-bug',
-            link:'/report-a-bug'
-          },
-          {
-            name: 'Github issue board',
+            name: 'Github Code',
             icon: 'mdi-github',
-            link:'/guthub-issue-board'
+            link:'/github'
           },
           {
-            name: 'Stack overview',
-            icon: 'mdi-stack-overflow',
-            link:'/stack-overview'
-          },
+            name: 'Administrator Login',
+            icon: 'mdi-account-box',
+            link:'/consulting-and-support'
+          }
         ],
         nav_title: "Navigation lists",
         nav_lists:[
           {
-            name: 'Getting Started',
-            icon: 'mdi-speedometer',
-            lists:[{
-                name:'Quick Start',link:'/quick-start'
-              },
-              {
-                name:'Pre-made layouts',link:'/pre-made-layouts'
-              }
-            ]
+            name: 'Home',
+            icon: 'mdi-home',
+            link:'/'
           },
           {
             name: 'Customization',
@@ -117,12 +106,31 @@ export default {
             link:'/directives'
           },
           {
-            name: 'Preminum themes',
-            icon: 'mdi-vuetify',
-            link:'/vuetify'
+            name: 'Github Code',
+            icon: 'mdi-github',
+            link:'/github'
           },
         ]
     }
+  },
+  methods: {
+    // ログイン処理
+    doLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider).then(result => {
+        // ログインしたユーザーの情報を取得します。
+        if(result.user.uid == "mQyHVZi87AMkrbR7PXXaFHQAHWb2"){
+          this.user = result.user;
+        }
+      }).catch(function(err) {
+        console.error(err)
+        // エラー処理
+      });
+    },
+    doLogout() {
+      this.user = {};
+      alert("ログアウトしました");
+    },
   }
 }
 </script>
