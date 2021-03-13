@@ -60,11 +60,6 @@ export default {
         markdown_key:markdown.id,
         markdown_text: markdown.markdown_title
       })
-    },
-    doSend() {
-      const firedb = firebase.database().ref('markdown');
-      var newMarkdown = firedb.push({markdown_text: this.markdown_text});
-      console.log("new key: "+newMarkdown.key);
     }
   }
 };
