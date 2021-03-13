@@ -1,50 +1,64 @@
 <template>
   <v-app>
-    <v-container>
-      <v-btn outlined color="green" @click="doSend">送信</v-btn>
-      <v-card>
-        <v-card-text>
-          <div class="markdown-body">
-            <div id="content"></div>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-container>
+    <v-img :src="img_src" max-height="300">
+      <v-container fill-height>
+        <v-layout align-center>
+          <v-flex>
+            <div class="box">
+              <div>
+                <h3 class="display-3 p3">ブログメモサイト</h3>
+                <p>
+                  <span class="subheading">自分用のメモや最近使った技術等のメモサイト</span>
+                </p>
+              </div>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-img>
+    <DisplayList :list_title="'最新の三件'" :menu_lists="markdown_new_titles"/>
+    <DisplayList :list_title="'全ての記事'" :menu_lists="markdown_titles"/>
   </v-app>
 </template>
 
 <script>
 
-import marked from "marked"
 import firebase from 'firebase'
+import DisplayList from '../components/Disp_List.vue';
 
 export default {
+  components: {
+    DisplayList
+  },
   data() {
     return {
-      markdown_text: "",
-      markdown_texts: [],
-      markdown_content: [],
-      mk_text: ""
+      markdown_titles: [],
+      markdown_new_titles: [],
+      img_src:require("../assets/cherry-blossom.jpg")
     }
   },
   created() {
-    this.axios.get('./markdown.md')
-        .then(response => this.markdown_text = response.data);
-    const ref_markdown = firebase.database().ref('/markdown');//"-MVU3vgLypjxus0REDJ9"
-    ref_markdown.limitToLast(10).on('child_added', this.childAdded);
+    const ref_new_markdown_titles = firebase.database().ref('/mk_title');
+    ref_new_markdown_titles.limitToLast(3).on('child_added', this.childNewAdded);
 
-    const dataRef = firebase.database().ref('/markdown/-MVaID_mMXoSeCGiKZbY');
-    dataRef.once("value")
-    .then(function(snapshot) {
-      document.querySelector('#content').innerHTML = marked(snapshot.child("markdown_text").val());
-    });
+    const ref_markdown_titles = firebase.database().ref('/mk_title');
+    ref_markdown_titles.limitToLast(10).on('child_added', this.childAdded);
   },
   methods: {
     childAdded(snap) {
       const markdown = snap.val()
-      this.markdown_texts.push({
+      this.markdown_titles.push({
         key: snap.key,
-        markdown_text: markdown.markdown_text
+        markdown_key:markdown.id,
+        markdown_text: markdown.markdown_title
+      })
+    },
+    childNewAdded(snap) {
+      const markdown = snap.val()
+      this.markdown_new_titles.push({
+        key: snap.key,
+        markdown_key:markdown.id,
+        markdown_text: markdown.markdown_title
       })
     },
     doSend() {
@@ -58,4 +72,13 @@ export default {
 
 <style>
   @import "../assets/markdown.css";
+  .box {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  color: #6091d3; /*文字色*/
+  background: #fff;
+  border: solid 3px #6091d3; /*線*/
+  border-radius: 10px; /*角の丸み*/
+}
 </style>
