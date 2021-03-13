@@ -41,8 +41,7 @@ export default {
     }),
     markdown_send(id) {
         this.MARKDOWN_UPDATE(id); //会社情報を詳細画面に送る
-        console.log(this.$store.state.markdown_id);
-        //document.location.href = "./about"
+        document.location.href = "./markdown?=" + id;
     }
   }
 };
