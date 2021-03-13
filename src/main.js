@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import store from "./store";
 
 Vue.config.productionTip = false
 
@@ -23,5 +24,6 @@ firebase.initializeApp(config)
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

@@ -10,7 +10,7 @@
               <v-list-item-icon>
                 <v-icon>{{"mdi-menu-right"}}</v-icon>
               </v-list-item-icon>
-              <v-list-item-content>
+              <v-list-item-content @click="markdown_send(menu_list)">
                 <v-list-item-title
                   v-text="menu_list.markdown_text"
                 ></v-list-item-title>
@@ -24,11 +24,26 @@
 </template>
 
 <script>
+
+import { mapMutations } from "vuex";
+import { MARKDOWN_UPDATE } from "../store/mutation-types";
+
 export default {
   name: "Display_List",
   props: {
     menu_lists: Array,
     list_title: String
+  },
+  methods: {
+    // スクロール位置を一番下に移動
+    ...mapMutations({
+      MARKDOWN_UPDATE
+    }),
+    markdown_send(me_list) {
+        this.MARKDOWN_UPDATE(me_list); //会社情報を詳細画面に送る
+        console.log(this.$store.state.markdown_info);
+        document.location.href = "./markdown?=" + me_list.markdown_key;
+    }
   }
 };
 </script>
