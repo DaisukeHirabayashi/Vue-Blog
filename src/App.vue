@@ -102,9 +102,9 @@ export default {
             ]
           },
           {
-            name: 'Directives',
-            icon: 'mdi-function',
-            link:'/directives'
+            name: 'Create Article',
+            icon: 'mdi-file-document-edit',
+            link:'/create_markdown'
           },
           {
             name: 'Github Code',
