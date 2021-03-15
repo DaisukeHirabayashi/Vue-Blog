@@ -2,30 +2,42 @@
   <v-app>
     <v-container fluid>
       <h1 class = "mt-2">記事の追加</h1>
-      <v-form class="pa-4 pt-6" v-model="form">
-        <v-textarea
-          :label="input_title_data.label"
-          auto-grow
-          :rules="input_title_data.rules"
-          rows="1"
-          row-height="15"
-          v-model="input_title_data.text"
-        ></v-textarea>
-        <v-textarea
-          filled
-          :rules="input_markdown_data.rules"
-          :label="input_markdown_data.label"
-          auto-grow
-          v-model="input_markdown_data.text"
-        ></v-textarea>
-        <v-btn :disabled="!form" color="primary" @click="doSend">Submit</v-btn>
-      </v-form>
+      <v-row>
+        <v-col cols="12" sm="6" md="6" lg="6">
+          <v-form class="pa-4 pt-6" v-model="form">
+            <v-textarea
+              :label="input_title_data.label"
+              auto-grow
+              :rules="input_title_data.rules"
+              rows="1"
+              row-height="15"
+              v-model="input_title_data.text"
+            ></v-textarea>
+            <v-textarea
+              filled
+              :rules="input_markdown_data.rules"
+              :label="input_markdown_data.label"
+              auto-grow
+              v-model="input_markdown_data.text"
+            ></v-textarea>
+          </v-form>
+        </v-col>
+        <v-col cols="12" sm="6" md="6" lg="6">
+          <v-card>
+            <div class="markdown-body">
+              <div v-html="marked_article"></div>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-btn :disabled="!form" color="primary" @click="doSend">Submit</v-btn>
     </v-container>
   </v-app>
 </template>
 
 <script>
 import firebase from 'firebase'
+import marked from "marked"
 
 export default {
   data() {
@@ -43,6 +55,13 @@ export default {
         rules: [v => !!v || "Aritcle is required"]
       }
     }
+  },
+  created(){
+  },
+  computed: {
+    marked_article: function() {
+      return marked(this.input_markdown_data.text);
+    },
   },
   methods: {
     doSend() {
