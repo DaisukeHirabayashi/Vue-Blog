@@ -1,6 +1,10 @@
 <template>
   <v-app>
     <v-container fluid>
+      <v-alert v-if ="!user_uid" type="error">
+          管理者でログインしてください
+          *管理者でない場合ログイン及び投稿はできません
+      </v-alert>
       <h1 class = "mt-2">記事の追加</h1>
       <v-row>
         <v-col cols="12" sm="6" md="6" lg="6">
@@ -30,7 +34,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-btn :disabled="!form" color="primary" @click="doSend">Submit</v-btn>
+      <v-btn :disabled="!form || !user_uid" color="primary" @click="doSend">Submit</v-btn>
     </v-container>
   </v-app>
 </template>
@@ -62,6 +66,9 @@ export default {
     marked_article: function() {
       return marked(this.input_markdown_data.text);
     },
+    user_uid: function(){
+      return this.$store.state.store_user.uid;
+    }
   },
   methods: {
     doSend() {
