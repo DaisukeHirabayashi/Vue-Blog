@@ -28,16 +28,16 @@
         </v-col>
         <v-col cols="12" sm="6" md="6" lg="6">
           <v-card>
-            <v-card-text>
-              <div>MarkDownによる記述</div>
+            <v-card-text v-if="input_markdown_data.text">
+              <div>記事をmarkdownで表示した際の表示</div>
             </v-card-text>
-            <div class="markdown-body">
+            <div class="markdown-body ml-3">
               <div v-html="marked_article"></div>
             </div>
           </v-card>
         </v-col>
       </v-row>
-      <v-btn :disabled="!form || !user_uid" color="primary" @click="doSend">Submit</v-btn>
+      <v-btn class="mt-2" :disabled="!form || !user_uid" color="primary" @click="doSend">Submit</v-btn>
     </v-container>
   </v-app>
 </template>
