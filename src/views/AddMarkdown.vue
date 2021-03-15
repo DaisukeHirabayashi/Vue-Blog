@@ -28,6 +28,9 @@
         </v-col>
         <v-col cols="12" sm="6" md="6" lg="6">
           <v-card>
+            <v-card-text>
+              <div>MarkDownによる記述</div>
+            </v-card-text>
             <div class="markdown-body">
               <div v-html="marked_article"></div>
             </div>
